@@ -1,8 +1,10 @@
 import mysql from "mysql";
 
-export const db = mysql.createConnection({
+const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-    password: "",  // if no pwd keep it empty
-    database: 'blog'
+  password: "", // if no pwd keep it empty
+  database: "blog",
 });
+
+export default db;
