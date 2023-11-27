@@ -3,10 +3,14 @@ import express from "express";
 import postRoute from "./routes/posts.js";
 import userRoute from "./routes/users.js";
 import authRoute from "./routes/auth.js";
+import cors from 'cors'
 
 const app = express();
 
 app.use(express.json());
+
+// Using the cors middleware
+app.use(cors());
 
 // EndPoint
 app.use("/api/auth/", authRoute);
