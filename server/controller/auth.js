@@ -1,5 +1,6 @@
 import db from "../db.js";
 import bcrypt from "bcrypt";
+import Jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
   // check existing user
@@ -32,6 +33,37 @@ export const register = (req, res) => {
   );
 };
 
-export const login = (req, res) => {};
+export const login = (req, res) => {
+  // checking if user exists or !
+
+  const q = "SELECT * FROM users WHERE username = ?";
+
+  db.query(q, [req.body.username], (err, data) => {
+    if (err || data.length === 0)
+      return res.status(404).json("user not found", err);
+
+    // Check password
+    const isPasswordValid = bcrypt.compareSync(
+      req.body.password,
+      data[0].password
+    );
+
+    // condition checking if pwd is valid
+    if (!isPasswordValid)
+      return res.status(404).json("wrong username or password who knows lol");
+
+    // COOKIES 🍪
+    const token = Jwt.sign({ id: data[0].id }, "jwtkey");
+    // prevent cookie from sending pwd to LS
+    const { password, ...other } = data[0];
+
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json(data[0]);
+  });
+};
 
 export const logout = (req, res) => {};

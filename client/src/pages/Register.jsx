@@ -14,7 +14,7 @@ const Register = () => {
   // State for handling registration errors
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // Function to handle input changes
   const handleInputChange = (e) => {
@@ -28,19 +28,19 @@ const Register = () => {
 
     try {
       // Sending a POST request to register the user
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/register",
-        inputs
-      );
-      navigate('/login')
-    } catch (err) {
+      await axios.post("http://localhost:8000/api/auth/register", inputs);
+
+      navigate("/login");
+    } catch (error) {
       // If an error occurs during registration, update the error state
-      setError(err.response.data);
+
+      setError(error.response.data);
+      console.log(error);
     }
   };
 
   // Log the current state of inputs (for debugging purposes)
-  console.log(inputs);
+  // console.log(inputs);
 
   return (
     <div className='auth'>
@@ -55,8 +55,8 @@ const Register = () => {
             type={
               fieldName === "email"
                 ? "email"
-                : fieldName === "number"
-                ? "tel"
+                : fieldName === "password"
+                ? "password"
                 : "text"
             }
             placeholder={fieldName}
