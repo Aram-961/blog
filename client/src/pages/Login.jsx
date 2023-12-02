@@ -1,75 +1,60 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../context/authContext.jsx";
 
 const Login = () => {
-  // State for user input values
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
   });
-
-  // State for handling registration errors
-  const [error, setError] = useState(null);
+  const [err, setError] = useState(null);
 
   const navigate = useNavigate();
 
-  // Function to handle input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setInputs((prevInputs) => ({ ...prevInputs, [name]: value }));
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Async function to handle form submission
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  // Getting current user
+  const { login } = useContext(AuthContext);
 
+  console.log(login);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      // Sending a POST request to register the user
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/login",
-        inputs
-      );
+      await login(inputs);
       navigate("/");
     } catch (err) {
-      // If an error occurs during registration, update the error state
       setError(err.response.data);
+      console.log(err);
     }
   };
 
-  // Log the current state of inputs (for debugging purposes)
-  console.log(inputs);
-
   return (
     <div className='auth'>
-      <h1>Register</h1>
+      <h1>Login</h1>
       <form>
-        {/* Input fields for username, email, number, and password */}
-        {["username", "password"].map((fieldName) => (
-          <input
-            key={fieldName}
-            required
-            name={fieldName}
-            type={
-              fieldName === "username"
-                ? "username"
-                : fieldName === "password"
-                ? ""
-                : ""
-            }
-            placeholder={fieldName}
-            onChange={handleInputChange}
-          />
-        ))}
-
-        {/* Button to trigger the registration process */}
-        <button onClick={handleFormSubmit}>login</button>
-
-        {/* Display error message if there is an error during registration */}
-        {error && <p>{error}</p>}
-
-        {/* Link to redirect to the login page if the user already has an account */}
+        <input
+          required
+          type='text'
+          placeholder='username'
+          name='username'
+          onChange={handleChange}
+        />
+        <input
+          required
+          type='password'
+          placeholder='password'
+          name='password'
+          onChange={handleChange}
+        />
+        <button onClick={handleSubmit}>Login</button>
+        {err && <p>{err}</p>}
         <span>
-          Don't you have an account? <Link to='/register'>register</Link>
+          Don't you have an account? <Link to='/register'>Register</Link>
         </span>
       </form>
     </div>
