@@ -5,12 +5,11 @@ const app = express.Router();
 
 export const getPosts = (req, res) => {
   // condition checking if there's category in db
-  const SelectFromAllPosts = req.query.category
-    ? "SELECT * FROM posts WHERE category = ?"
-    : // if there's no category show all posts
-      "SELECT * FROM posts";
+  const SelectFromAllPosts = req.query.cat
+    ? "SELECT * FROM posts WHERE cat = ?"
+    : "SELECT * FROM posts";
   // DATABASE
-  db.query(SelectFromAllPosts, [req.query.category], (err, data) => {
+  db.query(SelectFromAllPosts, [req.query.cat], (err, data) => {
     if (err) return res.json(err);
 
     // else return the data
