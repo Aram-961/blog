@@ -1,10 +1,13 @@
 import React from "react";
-import Logo from "../images/1.svg";
+import Logo from "../img/Golden Wings Logo.png";
+
 const Footer = () => {
   return (
     <footer>
-      <img src={Logo} alt='footer logo.svg' />
-      <span>made with freedom of speech❣️</span>
+      <img src={Logo} alt="" />
+      <span>
+        Made with ♥️ and <b>FreeDom Of Speech</b>.
+      </span>
     </footer>
   );
 };

@@ -1,46 +1,48 @@
 import React, { useContext } from "react";
-import Logo from "../images/1.svg";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
-// import { logout } from "../../../api/controller/auth";
+import Logo from "../img/Golden Wings Logo.png";
 
 const Navbar = () => {
-  const { logout, currentUser } = useContext(AuthContext);
+  const { currentUser, logout } = useContext(AuthContext);
+
   return (
-    <div className='navbar'>
-      <div className='container'>
-        <div className='logo'>
-          <Link to='/'>
-            <img src={Logo} alt='logo.svg' />
+    <div className="navbar">
+      <div className="container">
+        <div className="logo">
+          <Link to="/">
+          <img src={Logo} alt="" />
           </Link>
         </div>
-        <div className='links'>
-          <Link className='link' to='/?cat=art'>
+        <div className="links">
+          <Link className="link" to="/?cat=art">
             <h6>ART</h6>
           </Link>
-          <Link className='link' to='/?cat=news'>
-            <h6>News</h6>
+          <Link className="link" to="/?cat=science">
+            <h6>SCIENCE</h6>
           </Link>
-          <Link className='link' to='/?cat=politics'>
+          <Link className="link" to="/?cat=technology">
+            <h6>TECHNOLOGY</h6>
+          </Link>
+          <Link className="link" to="/?cat=cinema">
             <h6>Politics</h6>
           </Link>
-          <Link className='link' to='/?cat=tech'>
-            <h6>Tech</h6>
+          <Link className="link" to="/?cat=design">
+            <h6>Truth</h6>
           </Link>
-          <Link className='link' to='/?cat=science'>
-            <h6>Science</h6>
+          <Link className="link" to="/?cat=food">
+            <h6>Expose</h6>
           </Link>
-          {/* Show username who has logged in */}
           <span>{currentUser?.username}</span>
           {currentUser ? (
             <span onClick={logout}>Logout</span>
           ) : (
-            <Link className='link' to='/login'>
+            <Link className="link" to="/login">
               Login
             </Link>
           )}
-          <span className='write'>
-            <Link className='link' to='/write'>
+          <span className="write">
+            <Link className="link" to="/write">
               Write
             </Link>
           </span>
